@@ -17,9 +17,13 @@ As a DevOps engineer, I want to scan a single directory for YAML files so that I
 
 **Acceptance Scenarios**:
 
-1. **Given** a directory containing 5 YAML files, **When** I run the scanner on that directory, **Then** I receive a list of all 5 file paths.
+1. **Given** a directory containing 5 YAML files, **When** I run the scanner on that directory with the input directory parameter, **Then** I receive a list of all 5 file paths.
 2. **Given** a directory containing files with `.yaml` and `.yml` extensions, **When** I run the scanner, **Then** both extension types are discovered.
 3. **Given** a directory containing no YAML files, **When** I run the scanner, **Then** I receive an empty list with no errors.
+4. **Given** I want to understand how to use the scanner, **When** I invoke the help parameter, **Then** I see usage information including all available parameters and their descriptions.
+5. **Given** a directory with 10 YAML files, **When** I run the scanner with informational output verbosity, **Then** I see a summary showing "10 files found" without individual file details.
+6. **Given** a directory with 3 YAML files, **When** I run the scanner with verbose output verbosity, **Then** I see detailed messages for each file discovered and each directory scanned.
+7. **Given** a directory with YAML files, **When** I run the scanner with no output verbosity, **Then** I see no messages unless an error occurs.
 
 ---
 
@@ -33,30 +37,17 @@ As a DevOps engineer, I want to recursively scan a directory tree for YAML files
 
 **Acceptance Scenarios**:
 
-1. **Given** a directory tree with YAML files at depth levels 1, 2, and 3, **When** I run the scanner with recursive mode enabled, **Then** all files at all depths are discovered.
-2. **Given** recursive mode is disabled (default), **When** I run the scanner on a directory with subdirectories, **Then** only top-level YAML files are returned.
-3. **Given** a deeply nested structure (10+ levels), **When** I run the scanner recursively, **Then** all YAML files are discovered regardless of depth.
-4. **Given** a directory tree containing hidden directories (`.git`, `.cache`) with YAML files inside them, **When** I run the scanner recursively, **Then** those hidden directories are skipped and their YAML files are not discovered.
-
----
-
-### User Story 3 - Progress Reporting (Priority: P3)
-
-As a DevOps engineer scanning a large repository, I want to see progress updates so that I know the scanner is working and can estimate completion time.
-
-**Why this priority**: For repositories with thousands of files, users need feedback that the operation is progressing. This supports the constitution's requirement for progress reporting on operations >5 seconds.
-
-**Independent Test**: Can be fully tested by scanning a directory with many files and verifying progress output is displayed.
-
-**Acceptance Scenarios**:
-
-1. **Given** a directory with 1000+ files, **When** I run the scanner, **Then** I see periodic progress updates showing files scanned.
-2. **Given** the scanner is running, **When** progress updates occur, **Then** each update shows the current count of discovered YAML files.
+1. **Given** a directory tree with YAML files at depth levels 1, 2, and 3, **When** I run the scanner with the recursive parameter enabled, **Then** all files at all depths are discovered.
+2. **Given** the recursive parameter is not specified (default off), **When** I run the scanner on a directory with subdirectories, **Then** only top-level YAML files are returned.
+3. **Given** a deeply nested structure (10+ levels), **When** I run the scanner with the recursive parameter enabled, **Then** all YAML files are discovered regardless of depth.
+4. **Given** a directory tree containing hidden directories (`.git`, `.cache`) with YAML files inside them, **When** I run the scanner with the recursive parameter enabled, **Then** those hidden directories are skipped and their YAML files are not discovered.
 
 ---
 
 ### Edge Cases
 
+- What happens when no input directory parameter is provided? Scanner reports an error indicating the input directory is required.
+- What happens when an invalid output verbosity level is specified? Scanner reports an error listing the valid verbosity options.
 - What happens when a directory path does not exist? Scanner reports a clear error message indicating the path was not found.
 - What happens when a directory is not readable due to permissions? Scanner reports a permission error for that directory and continues scanning accessible paths.
 - What happens when symbolic links point to YAML files? Scanner follows symlinks by default and includes the linked files.
@@ -68,23 +59,32 @@ As a DevOps engineer scanning a large repository, I want to see progress updates
 
 ### Functional Requirements
 
-- **FR-001**: Scanner MUST discover all files with `.yaml` extension in the specified directory.
-- **FR-002**: Scanner MUST discover all files with `.yml` extension in the specified directory.
-- **FR-003**: Scanner MUST support a flag to enable recursive directory traversal (disabled by default).
-- **FR-004**: Scanner MUST return the absolute path for each discovered file.
-- **FR-005**: Scanner MUST report an error when the specified path does not exist.
-- **FR-006**: Scanner MUST report an error when the specified path is not a directory.
-- **FR-007**: Scanner MUST handle permission errors gracefully, reporting inaccessible paths without crashing.
-- **FR-008**: Scanner MUST follow symbolic links when discovering files.
-- **FR-009**: Scanner MUST deduplicate files reachable via multiple paths (using resolved absolute path).
-- **FR-010**: Scanner MUST report progress for operations scanning more than 100 files.
-- **FR-011**: Scanner MUST support output in both human-readable and JSON formats.
-- **FR-012**: Scanner MUST skip hidden directories (directories whose names start with `.`) during traversal.
+#### CLI Parameters
+
+- **FR-001**: Scanner MUST provide a help parameter that displays usage information and all available parameters.
+- **FR-002**: Scanner MUST accept an input directory parameter to specify the directory to scan.
+- **FR-003**: Scanner MUST accept an output verbosity parameter with three levels:
+  - **No output**: Suppress all non-error messages (only errors displayed)
+  - **Informational**: Display summary messages (files found count, scan completion)
+  - **Verbose**: Display detailed processing messages (each file discovered, each directory scanned, YAML validation status)
+- **FR-004**: Scanner MUST accept a recursive parameter to enable/disable subdirectory traversal (disabled by default).
+
+#### Scanning Behavior
+
+- **FR-005**: Scanner MUST discover all files with `.yaml` extension in the specified directory.
+- **FR-006**: Scanner MUST discover all files with `.yml` extension in the specified directory.
+- **FR-007**: Scanner MUST return the absolute path for each discovered file.
+- **FR-008**: Scanner MUST report an error when the specified path does not exist.
+- **FR-009**: Scanner MUST report an error when the specified path is not a directory.
+- **FR-010**: Scanner MUST handle permission errors gracefully, reporting inaccessible paths without crashing.
+- **FR-011**: Scanner MUST follow symbolic links when discovering files.
+- **FR-012**: Scanner MUST deduplicate files reachable via multiple paths (using resolved absolute path).
+- **FR-013**: Scanner MUST skip hidden directories (directories whose names start with `.`) during traversal.
 
 ### Key Entities
 
 - **ScanResult**: Represents the output of a scan operation. Contains: list of discovered file paths, count of files found, count of directories scanned, list of any errors encountered (path + error message).
-- **ScanOptions**: Configuration for a scan operation. Contains: target directory path, recursive flag (boolean), follow symlinks flag (boolean).
+- **ScanOptions**: Configuration for a scan operation. Contains: input directory path (required), recursive flag (boolean, default: false), output verbosity level (no output / informational / verbose, default: informational).
 
 ## Success Criteria *(mandatory)*
 
@@ -92,9 +92,9 @@ As a DevOps engineer scanning a large repository, I want to see progress updates
 
 - **SC-001**: Scanner discovers 100% of YAML/YML files in a test directory structure with known file counts.
 - **SC-002**: Scanner completes scanning of 10,000 files in under 5 seconds on standard hardware.
-- **SC-003**: Scanner provides progress updates at least every 2 seconds during long-running operations.
-- **SC-004**: Scanner correctly handles and reports 100% of permission errors without crashing.
-- **SC-005**: Users can understand scanner output and identify discovered files within 10 seconds of viewing results.
+- **SC-003**: Scanner correctly handles and reports 100% of permission errors without crashing.
+- **SC-004**: Users can understand scanner output and identify discovered files within 10 seconds of viewing results.
+- **SC-005**: Users can successfully invoke the help parameter and understand all available options within 30 seconds.
 
 ## Assumptions
 

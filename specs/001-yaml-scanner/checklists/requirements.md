@@ -34,4 +34,11 @@
 - All checklist items passed validation
 - Spec is ready for `/speckit.clarify` or `/speckit.plan`
 - Assumptions section documents reasonable defaults for unspecified details
-- Updated to include FR-012: exclusion of hidden directories from scanning
+- Updated to include FR-013: exclusion of hidden directories from scanning
+- Removed User Story 3 (Progress Reporting) as it's not required for this feature
+- Added CLI parameter requirements (FR-001 to FR-004):
+  - Help parameter for usage information
+  - Input directory parameter (required)
+  - Output verbosity parameter (3 levels: no output, informational, verbose)
+  - Recursive parameter for subdirectory scanning
+- Final spec includes 2 user stories, 13 functional requirements, and 5 success criteria
