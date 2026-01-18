@@ -1,10 +1,10 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: 1.0.0 → 1.0.1 (Technology stack clarification)
+Version change: 1.0.1 → 1.1.0 (Architecture section added)
 Modified principles: None
-Modified sections:
-  - Additional Constraints > Technology Standards: Updated to Python stack
+Added sections:
+  - Architecture: Pipeline Pattern (4-stage pipeline definition)
 Removed sections: None
 Templates requiring updates:
   - .specify/templates/plan-template.md: ✅ Compatible
@@ -78,6 +78,23 @@ Code MUST be simple, focused, and performant. Avoid over-engineering.
 - Performance-critical paths SHOULD be profiled and documented
 
 **Rationale**: Migration tools must handle varying workload sizes reliably. Simple code is easier to maintain and debug. Performance matters for large-scale migrations.
+
+## Architecture: Pipeline Pattern
+
+The tool MUST use a 4-stage pipeline architecture:
+
+1. **Scanner** - Find `*.yaml`/`*.yml` files (recursive option available)
+2. **Parser** - Extract fields from valid ArgoCD Applications, skip invalid files
+3. **Migrator** - Transform to JSON config (1:1 mapping per Application)
+4. **Validator** - Validate output against JSON Schema (Draft7Validator)
+
+### Pipeline Requirements
+
+- Each stage MUST be independently testable
+- Each stage MUST have a clear input/output contract
+- Stages MUST be composable (output of one feeds input of next)
+- Errors in one file MUST NOT halt processing of other files
+- Each stage MUST report its progress and any skipped/failed items
 
 ## Additional Constraints
 
@@ -153,4 +170,4 @@ This constitution defines the non-negotiable principles and standards for the ap
 - Complexity violations MUST be justified in the Complexity Tracking table
 - Regular audits SHOULD verify ongoing compliance
 
-**Version**: 1.0.1 | **Ratified**: 2026-01-18 | **Last Amended**: 2026-01-18
+**Version**: 1.1.0 | **Ratified**: 2026-01-18 | **Last Amended**: 2026-01-18
