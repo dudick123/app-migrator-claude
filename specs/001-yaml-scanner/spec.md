@@ -36,6 +36,7 @@ As a DevOps engineer, I want to recursively scan a directory tree for YAML files
 1. **Given** a directory tree with YAML files at depth levels 1, 2, and 3, **When** I run the scanner with recursive mode enabled, **Then** all files at all depths are discovered.
 2. **Given** recursive mode is disabled (default), **When** I run the scanner on a directory with subdirectories, **Then** only top-level YAML files are returned.
 3. **Given** a deeply nested structure (10+ levels), **When** I run the scanner recursively, **Then** all YAML files are discovered regardless of depth.
+4. **Given** a directory tree containing hidden directories (`.git`, `.cache`) with YAML files inside them, **When** I run the scanner recursively, **Then** those hidden directories are skipped and their YAML files are not discovered.
 
 ---
 
@@ -61,6 +62,7 @@ As a DevOps engineer scanning a large repository, I want to see progress updates
 - What happens when symbolic links point to YAML files? Scanner follows symlinks by default and includes the linked files.
 - What happens when a file has a YAML extension but is not valid YAML? Scanner includes the file (validation is the Parser stage's responsibility).
 - What happens when the same file is reachable via multiple symlink paths? Scanner reports each unique file only once (deduplicated by resolved path).
+- What happens when hidden directories (starting with `.`) are encountered? Scanner skips hidden directories entirely and does not traverse into them.
 
 ## Requirements *(mandatory)*
 
@@ -77,6 +79,7 @@ As a DevOps engineer scanning a large repository, I want to see progress updates
 - **FR-009**: Scanner MUST deduplicate files reachable via multiple paths (using resolved absolute path).
 - **FR-010**: Scanner MUST report progress for operations scanning more than 100 files.
 - **FR-011**: Scanner MUST support output in both human-readable and JSON formats.
+- **FR-012**: Scanner MUST skip hidden directories (directories whose names start with `.`) during traversal.
 
 ### Key Entities
 
@@ -99,3 +102,4 @@ As a DevOps engineer scanning a large repository, I want to see progress updates
 - The file system being scanned is a local or network-mounted file system (not cloud object storage).
 - YAML files use standard `.yaml` or `.yml` extensions (non-standard extensions like `.yamlx` are out of scope).
 - Symbolic link cycles, if present, are handled by the underlying file system or standard library traversal.
+- Hidden directories (starting with `.`) typically contain tool/system files not relevant to ArgoCD manifests (e.g., `.git`, `.venv`, `.cache`).

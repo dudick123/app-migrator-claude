@@ -34,3 +34,4 @@
 - All checklist items passed validation
 - Spec is ready for `/speckit.clarify` or `/speckit.plan`
 - Assumptions section documents reasonable defaults for unspecified details
+- Updated to include FR-012: exclusion of hidden directories from scanning
