@@ -28,12 +28,12 @@ description: "Task list for YAML File Scanner implementation"
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create Python project structure with src/scanner/ and tests/ directories
-- [ ] T002 Initialize pyproject.toml with UV for Python 3.12+ project with dependencies: typer, rich, pydantic, pytest
-- [ ] T003 [P] Create .python-version file specifying Python 3.12
-- [ ] T004 [P] Create src/__init__.py and src/scanner/__init__.py package files
-- [ ] T005 [P] Configure Ruff linting in pyproject.toml with strict settings
-- [ ] T006 [P] Configure mypy or pyright in pyproject.toml for strict type checking
+- [X] T001 Create Python project structure with src/scanner/ and tests/ directories
+- [X] T002 Initialize pyproject.toml with UV for Python 3.12+ project with dependencies: typer, rich, pydantic, pytest
+- [X] T003 [P] Create .python-version file specifying Python 3.12
+- [X] T004 [P] Create src/__init__.py and src/scanner/__init__.py package files
+- [X] T005 [P] Configure Ruff linting in pyproject.toml with strict settings
+- [X] T006 [P] Configure mypy or pyright in pyproject.toml for strict type checking
 
 ---
 
@@ -43,12 +43,12 @@ description: "Task list for YAML File Scanner implementation"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T007 Create ScanOptions Pydantic model in src/scanner/core.py with fields: input_dir, recursive, format, verbosity
-- [ ] T008 Add field validators to ScanOptions for input_dir existence and directory validation
-- [ ] T009 Create ScanResult Pydantic model in src/scanner/core.py with fields: files, errors, computed properties: count, has_errors
-- [ ] T010 Add to_json_array() method to ScanResult for JSON output format
-- [ ] T011 [P] Create OutputFormat and VerbosityLevel type aliases in src/scanner/core.py
-- [ ] T012 Create unit test file tests/unit/test_scanner_core.py with pytest fixtures for temp directories
+- [X] T007 Create ScanOptions Pydantic model in src/scanner/core.py with fields: input_dir, recursive, format, verbosity
+- [X] T008 Add field validators to ScanOptions for input_dir existence and directory validation
+- [X] T009 Create ScanResult Pydantic model in src/scanner/core.py with fields: files, errors, computed properties: count, has_errors
+- [X] T010 Add to_json_array() method to ScanResult for JSON output format
+- [X] T011 [P] Create OutputFormat and VerbosityLevel type aliases in src/scanner/core.py
+- [X] T012 Create unit test file tests/unit/test_scanner_core.py with pytest fixtures for temp directories
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -64,31 +64,31 @@ description: "Task list for YAML File Scanner implementation"
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T013 [P] [US1] Write unit test for single directory scan in tests/unit/test_scanner_core.py::test_scan_single_directory
-- [ ] T014 [P] [US1] Write unit test for .yaml and .yml extension discovery in tests/unit/test_scanner_core.py::test_both_extensions_discovered
-- [ ] T015 [P] [US1] Write unit test for empty directory scan in tests/unit/test_scanner_core.py::test_empty_directory_returns_empty_list
-- [ ] T016 [P] [US1] Write integration test for single directory scan in tests/integration/test_single_directory_scan.py
+- [X] T013 [P] [US1] Write unit test for single directory scan in tests/unit/test_scanner_core.py::test_scan_single_directory
+- [X] T014 [P] [US1] Write unit test for .yaml and .yml extension discovery in tests/unit/test_scanner_core.py::test_both_extensions_discovered
+- [X] T015 [P] [US1] Write unit test for empty directory scan in tests/unit/test_scanner_core.py::test_empty_directory_returns_empty_list
+- [X] T016 [P] [US1] Write integration test for single directory scan in tests/integration/test_single_directory_scan.py
 
 ### Implementation for User Story 1
 
-- [ ] T017 [P] [US1] Create is_yaml_file() function in src/scanner/filters.py to check file extensions (.yaml, .yml)
-- [ ] T018 [P] [US1] Create scan_directory() function in src/scanner/core.py for non-recursive scanning using pathlib.glob()
-- [ ] T019 [US1] Implement path resolution to absolute paths in scan_directory() function
-- [ ] T020 [US1] Implement file deduplication logic in scan_directory() for symlink handling in non-recursive mode
-- [ ] T021 [P] [US1] Create format_json_output() function in src/scanner/core.py to output JSON array to stdout
-- [ ] T022 [P] [US1] Create format_human_output() function in src/scanner/core.py using Rich library for terminal formatting
-- [ ] T023 [US1] Implement quiet verbosity (no output) in format_human_output()
-- [ ] T024 [US1] Implement info verbosity (summary with count) in format_human_output()
-- [ ] T025 [US1] Implement verbose verbosity (Rich table with all files) in format_human_output()
-- [ ] T026 [US1] Create Typer CLI application in src/scanner/cli.py with main command
-- [ ] T027 [US1] Add --input-dir/-i parameter to CLI with Path type and required=True
-- [ ] T028 [US1] Add --format/-f parameter to CLI with choices: json, human (default: human)
-- [ ] T029 [US1] Add --verbosity/-v parameter to CLI with choices: quiet, info, verbose (default: info)
-- [ ] T030 [US1] Implement CLI parameter validation and error messages to stderr
-- [ ] T031 [US1] Wire CLI parameters to ScanOptions model instantiation with error handling
-- [ ] T032 [US1] Wire scan_directory() and output formatting functions to CLI command
-- [ ] T033 [US1] Implement exit code logic: 0 for success, 1 for errors
-- [ ] T034 [US1] Add entry point script 'argocd-scan' in pyproject.toml [project.scripts]
+- [X] T017 [P] [US1] Create is_yaml_file() function in src/scanner/filters.py to check file extensions (.yaml, .yml)
+- [X] T018 [P] [US1] Create scan_directory() function in src/scanner/core.py for non-recursive scanning using pathlib.glob()
+- [X] T019 [US1] Implement path resolution to absolute paths in scan_directory() function
+- [X] T020 [US1] Implement file deduplication logic in scan_directory() for symlink handling in non-recursive mode
+- [X] T021 [P] [US1] Create format_json_output() function in src/scanner/core.py to output JSON array to stdout
+- [X] T022 [P] [US1] Create format_human_output() function in src/scanner/core.py using Rich library for terminal formatting
+- [X] T023 [US1] Implement quiet verbosity (no output) in format_human_output()
+- [X] T024 [US1] Implement info verbosity (summary with count) in format_human_output()
+- [X] T025 [US1] Implement verbose verbosity (Rich table with all files) in format_human_output()
+- [X] T026 [US1] Create Typer CLI application in src/scanner/cli.py with main command
+- [X] T027 [US1] Add --input-dir/-i parameter to CLI with Path type and required=True
+- [X] T028 [US1] Add --format/-f parameter to CLI with choices: json, human (default: human)
+- [X] T029 [US1] Add --verbosity/-v parameter to CLI with choices: quiet, info, verbose (default: info)
+- [X] T030 [US1] Implement CLI parameter validation and error messages to stderr
+- [X] T031 [US1] Wire CLI parameters to ScanOptions model instantiation with error handling
+- [X] T032 [US1] Wire scan_directory() and output formatting functions to CLI command
+- [X] T033 [US1] Implement exit code logic: 0 for success, 1 for errors
+- [X] T034 [US1] Add entry point script 'argocd-scan' in pyproject.toml [project.scripts]
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -102,25 +102,25 @@ description: "Task list for YAML File Scanner implementation"
 
 ### Tests for User Story 2
 
-- [ ] T035 [P] [US2] Write unit test for recursive scan discovering files at multiple depths in tests/unit/test_scanner_core.py::test_recursive_scan_multiple_depths
-- [ ] T036 [P] [US2] Write unit test for non-recursive default behavior in tests/unit/test_scanner_core.py::test_non_recursive_default_only_top_level
-- [ ] T037 [P] [US2] Write unit test for hidden directory filtering in tests/unit/test_filters.py::test_hidden_directories_skipped
-- [ ] T038 [P] [US2] Write unit test for symlink ignoring in recursive mode in tests/unit/test_scanner_core.py::test_recursive_ignores_symlinks
-- [ ] T039 [P] [US2] Write integration test for recursive scan in tests/integration/test_recursive_scan.py
-- [ ] T040 [P] [US2] Write integration test for permission errors with partial results in tests/integration/test_permission_errors.py
+- [X] T035 [P] [US2] Write unit test for recursive scan discovering files at multiple depths in tests/unit/test_scanner_core.py::test_recursive_scan_multiple_depths
+- [X] T036 [P] [US2] Write unit test for non-recursive default behavior in tests/unit/test_scanner_core.py::test_non_recursive_default_only_top_level
+- [X] T037 [P] [US2] Write unit test for hidden directory filtering in tests/unit/test_filters.py::test_hidden_directories_skipped
+- [X] T038 [P] [US2] Write unit test for symlink ignoring in recursive mode in tests/unit/test_scanner_core.py::test_recursive_ignores_symlinks
+- [X] T039 [P] [US2] Write integration test for recursive scan in tests/integration/test_recursive_scan.py
+- [X] T040 [P] [US2] Write integration test for permission errors with partial results in tests/integration/test_permission_errors.py
 
 ### Implementation for User Story 2
 
-- [ ] T041 [P] [US2] Create is_hidden_directory() function in src/scanner/filters.py to check for dot-prefixed directory names
-- [ ] T042 [US2] Update scan_directory() function to support recursive parameter using pathlib.rglob()
-- [ ] T043 [US2] Implement hidden directory filtering in recursive scan logic
-- [ ] T044 [US2] Implement symlink ignoring in recursive mode (rglob doesn't follow symlinks by default in Python 3.10+)
-- [ ] T045 [US2] Implement permission error handling with try/except in scan_directory()
-- [ ] T046 [US2] Collect permission errors into ScanResult.errors list
-- [ ] T047 [US2] Implement partial results with errors: output files to stdout, errors to stderr, exit code 1
-- [ ] T048 [US2] Add --recursive/-r flag to CLI command in src/scanner/cli.py
-- [ ] T049 [US2] Wire recursive parameter from CLI to ScanOptions model
-- [ ] T050 [US2] Update exit code logic to return 1 when ScanResult.has_errors is True
+- [X] T041 [P] [US2] Create is_hidden_directory() function in src/scanner/filters.py to check for dot-prefixed directory names
+- [X] T042 [US2] Update scan_directory() function to support recursive parameter using pathlib.rglob()
+- [X] T043 [US2] Implement hidden directory filtering in recursive scan logic
+- [X] T044 [US2] Implement symlink ignoring in recursive mode (rglob doesn't follow symlinks by default in Python 3.10+)
+- [X] T045 [US2] Implement permission error handling with try/except in scan_directory()
+- [X] T046 [US2] Collect permission errors into ScanResult.errors list
+- [X] T047 [US2] Implement partial results with errors: output files to stdout, errors to stderr, exit code 1
+- [X] T048 [US2] Add --recursive/-r flag to CLI command in src/scanner/cli.py
+- [X] T049 [US2] Wire recursive parameter from CLI to ScanOptions model
+- [X] T050 [US2] Update exit code logic to return 1 when ScanResult.has_errors is True
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -130,16 +130,16 @@ description: "Task list for YAML File Scanner implementation"
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T051 [P] Add type annotations to all functions with return types
-- [ ] T052 [P] Add docstrings to all public functions and classes
-- [ ] T053 [P] Run mypy/pyright type checking and fix any type errors
-- [ ] T054 [P] Run Ruff linting and fix any style issues
-- [ ] T055 [P] Add CLI help text with detailed parameter descriptions in src/scanner/cli.py
-- [ ] T056 Add README.md usage examples referencing io-artifact-examples/argocd-applications
-- [ ] T057 [P] Verify all error messages go to stderr (not stdout)
-- [ ] T058 [P] Verify JSON output is valid JSON array format
-- [ ] T059 Run pytest with coverage report to ensure >80% coverage
-- [ ] T060 Test CLI manually with io-artifact-examples/argocd-applications directory
+- [X] T051 [P] Add type annotations to all functions with return types
+- [X] T052 [P] Add docstrings to all public functions and classes
+- [X] T053 [P] Run mypy/pyright type checking and fix any type errors
+- [X] T054 [P] Run Ruff linting and fix any style issues
+- [X] T055 [P] Add CLI help text with detailed parameter descriptions in src/scanner/cli.py
+- [X] T056 Add README.md usage examples referencing io-artifact-examples/argocd-applications
+- [X] T057 [P] Verify all error messages go to stderr (not stdout)
+- [X] T058 [P] Verify JSON output is valid JSON array format
+- [X] T059 Run pytest with coverage report to ensure >80% coverage
+- [X] T060 Test CLI manually with io-artifact-examples/argocd-applications directory
 
 ---
 
