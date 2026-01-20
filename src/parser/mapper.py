@@ -3,10 +3,10 @@
 from parser.models import (
     ArgoCDApplication,
     MigrationOutput,
-    OutputMetadata,
-    OutputSource,
     OutputDestination,
     OutputDirectoryConfig,
+    OutputMetadata,
+    OutputSource,
 )
 
 
@@ -74,7 +74,10 @@ def transform_to_migration_output(
 
     Examples:
         >>> app = ArgoCDApplication(...)  # doctest: +SKIP
-        >>> output = transform_to_migration_output(app, cluster_mappings={"https://kubernetes.default.svc": "prod-cluster"})  # doctest: +SKIP
+        >>> mappings = {"https://kubernetes.default.svc": "prod-cluster"}
+        >>> output = transform_to_migration_output(  # doctest: +SKIP
+        ...     app, cluster_mappings=mappings
+        ... )
         >>> output.destination.clusterName  # doctest: +SKIP
         'prod-cluster'
     """
