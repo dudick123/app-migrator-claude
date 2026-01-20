@@ -112,51 +112,51 @@ Foundational ──────┼──→ US1 (P1) ──→ US2 (P2) ──�
 
 #### Step 1: Pydantic Models (Input Validation)
 
-- [ ] T019 [P] [US1] Define ArgoCDMetadata model in src/parser/models.py
-- [ ] T020 [P] [US1] Define ArgoCDDestination model with server/name XOR validator in src/parser/models.py
-- [ ] T021 [P] [US1] Define ArgoCDSource model with path/chart validator in src/parser/models.py
-- [ ] T022 [P] [US1] Define ArgoCDSyncPolicy model in src/parser/models.py
-- [ ] T023 [P] [US1] Define ArgoCDSpec model in src/parser/models.py
-- [ ] T024 [US1] Define ArgoCDApplication model with apiVersion/kind validators in src/parser/models.py
+- [X] T019 [P] [US1] Define ArgoCDMetadata model in src/parser/models.py
+- [X] T020 [P] [US1] Define ArgoCDDestination model with server/name XOR validator in src/parser/models.py
+- [X] T021 [P] [US1] Define ArgoCDSource model with path/chart validator in src/parser/models.py
+- [X] T022 [P] [US1] Define ArgoCDSyncPolicy model in src/parser/models.py
+- [X] T023 [P] [US1] Define ArgoCDSpec model in src/parser/models.py
+- [X] T024 [US1] Define ArgoCDApplication model with apiVersion/kind validators in src/parser/models.py
 
 #### Step 2: Output Models (Transformation)
 
-- [ ] T025 [P] [US1] Define OutputMetadata model in src/parser/models.py
-- [ ] T026 [P] [US1] Define OutputSource model with default directory config in src/parser/models.py
-- [ ] T027 [P] [US1] Define OutputDestination model in src/parser/models.py
-- [ ] T028 [US1] Define MigrationOutput model in src/parser/models.py
+- [X] T025 [P] [US1] Define OutputMetadata model in src/parser/models.py
+- [X] T026 [P] [US1] Define OutputSource model with default directory config in src/parser/models.py
+- [X] T027 [P] [US1] Define OutputDestination model in src/parser/models.py
+- [X] T028 [US1] Define MigrationOutput model in src/parser/models.py
 
 #### Step 3: Field Mapper
 
-- [ ] T029 [US1] Implement normalize_annotation_key() function in src/parser/mapper.py
-- [ ] T030 [US1] Implement transform_to_migration_output() function in src/parser/mapper.py
-- [ ] T031 [US1] Add cluster_mapping config parameter support to transform function in src/parser/mapper.py
-- [ ] T032 [US1] Add default_labels config parameter support to transform function in src/parser/mapper.py
+- [X] T029 [US1] Implement normalize_annotation_key() function in src/parser/mapper.py
+- [X] T030 [US1] Implement transform_to_migration_output() function in src/parser/mapper.py
+- [X] T031 [US1] Add cluster_mapping config parameter support to transform function in src/parser/mapper.py
+- [X] T032 [US1] Add default_labels config parameter support to transform function in src/parser/mapper.py
 
 #### Step 4: Core Parser Logic
 
-- [ ] T033 [US1] Implement parse_argocd_manifest() function in src/parser/core.py
-- [ ] T034 [US1] Add output directory creation logic (with parents) in src/parser/core.py
-- [ ] T035 [US1] Implement write_json_output() function in src/parser/core.py
+- [X] T033 [US1] Implement parse_argocd_manifest() function in src/parser/core.py
+- [X] T034 [US1] Add output directory creation logic (with parents) in src/parser/core.py
+- [X] T035 [US1] Implement write_json_output() function in src/parser/core.py
 
 #### Step 5: CLI Command
 
-- [ ] T036 [US1] Create Typer app instance in src/parser/cli.py
-- [ ] T037 [US1] Implement parse command with --file and --output-dir flags in src/parser/cli.py
-- [ ] T038 [US1] Add optional --config flag for cluster mappings in src/parser/cli.py
-- [ ] T039 [US1] Add success/failure console output with Rich in src/parser/cli.py
+- [X] T036 [US1] Create Typer app instance in src/parser/cli.py
+- [X] T037 [US1] Implement parse command with --file and --output-dir flags in src/parser/cli.py
+- [X] T038 [US1] Add optional --config flag for cluster mappings in src/parser/cli.py
+- [X] T039 [US1] Add success/failure console output with Rich in src/parser/cli.py
 
 #### Step 6: Unit Tests
 
-- [ ] T040 [P] [US1] Write unit tests for ArgoCDApplication Pydantic validation in tests/unit/parser/test_validator.py
-- [ ] T041 [P] [US1] Write unit tests for normalize_annotation_key() in tests/unit/parser/test_mapper.py
-- [ ] T042 [P] [US1] Write unit tests for transform_to_migration_output() in tests/unit/parser/test_mapper.py
+- [X] T040 [P] [US1] Write unit tests for ArgoCDApplication Pydantic validation in tests/unit/test_parser_mapper.py
+- [X] T041 [P] [US1] Write unit tests for normalize_annotation_key() in tests/unit/test_parser_mapper.py
+- [X] T042 [P] [US1] Write unit tests for transform_to_migration_output() in tests/unit/test_parser_mapper.py
 
 #### Step 7: Integration Tests
 
-- [ ] T043 [US1] Write integration test for single file parsing with valid manifest in tests/integration/parser/test_cli.py
-- [ ] T044 [US1] Write integration test for output directory creation in tests/integration/parser/test_file_io.py
-- [ ] T045 [US1] Write integration test for JSON output file content validation in tests/integration/parser/test_file_io.py
+- [X] T043 [US1] Write integration test for single file parsing with valid manifest in tests/integration/test_parser_cli.py
+- [X] T044 [US1] Write integration test for output directory creation in tests/integration/test_parser_cli.py
+- [X] T045 [US1] Write integration test for JSON output file content validation in tests/integration/test_parser_cli.py
 
 #### Step 8: Contract Tests
 
@@ -198,39 +198,39 @@ Foundational ──────┼──→ US1 (P1) ──→ US2 (P2) ──�
 
 #### Step 1: Validation Logic
 
-- [ ] T048 [P] [US2] Add apiVersion validation logic to ArgoCDApplication model in src/parser/models.py
-- [ ] T049 [P] [US2] Add kind validation logic to ArgoCDApplication model in src/parser/models.py
-- [ ] T050 [P] [US2] Implement validate_required_fields() function in src/parser/validator.py
-- [ ] T051 [P] [US2] Implement validate_empty_null_fields() function in src/parser/validator.py
-- [ ] T052 [US2] Add comprehensive error message formatting in src/parser/validator.py
+- [X] T048 [P] [US2] Add apiVersion validation logic to ArgoCDApplication model in src/parser/models.py
+- [X] T049 [P] [US2] Add kind validation logic to ArgoCDApplication model in src/parser/models.py
+- [X] T050 [P] [US2] Implement validate_required_fields() function in src/parser/validator.py
+- [X] T051 [P] [US2] Implement validate_empty_null_fields() function in src/parser/validator.py
+- [X] T052 [US2] Add comprehensive error message formatting in src/parser/validator.py
 
 #### Step 2: Error Handling in Parser
 
-- [ ] T053 [US2] Add try/except for YAML syntax errors with line number extraction in src/parser/core.py
-- [ ] T054 [US2] Add try/except for Pydantic ValidationError with field path extraction in src/parser/core.py
-- [ ] T055 [US2] Add try/except for YAMLDocumentError (multi-doc detection) in src/parser/core.py
-- [ ] T056 [US2] Update ParseResult to include detailed error list in src/parser/core.py
+- [X] T053 [US2] Add try/except for YAML syntax errors with line number extraction in src/parser/core.py
+- [X] T054 [US2] Add try/except for Pydantic ValidationError with field path extraction in src/parser/core.py
+- [X] T055 [US2] Add try/except for YAMLDocumentError (multi-doc detection) in src/parser/core.py
+- [X] T056 [US2] Update ParseResult to include detailed error list in src/parser/core.py
 
 #### Step 3: CLI Error Display
 
-- [ ] T057 [US2] Add error formatting with Rich for validation failures in src/parser/cli.py
-- [ ] T058 [US2] Add error formatting for YAML syntax errors with line numbers in src/parser/cli.py
-- [ ] T059 [US2] Set appropriate exit codes (0=success, 1=validation error, 2=syntax error) in src/parser/cli.py
+- [X] T057 [US2] Add error formatting with Rich for validation failures in src/parser/cli.py
+- [X] T058 [US2] Add error formatting for YAML syntax errors with line numbers in src/parser/cli.py
+- [X] T059 [US2] Set appropriate exit codes (0=success, 1=validation error, 2=syntax error) in src/parser/cli.py
 
 #### Step 4: Unit Tests
 
-- [ ] T060 [P] [US2] Write tests for missing required field detection in tests/unit/parser/test_validator.py
-- [ ] T061 [P] [US2] Write tests for empty string validation in tests/unit/parser/test_validator.py
-- [ ] T062 [P] [US2] Write tests for null value validation in tests/unit/parser/test_validator.py
-- [ ] T063 [P] [US2] Write tests for invalid apiVersion/kind in tests/unit/parser/test_validator.py
+- [X] T060 [P] [US2] Write tests for missing required field detection in tests/unit/test_parser_validator.py
+- [X] T061 [P] [US2] Write tests for empty string validation in tests/unit/test_parser_validator.py
+- [X] T062 [P] [US2] Write tests for null value validation in tests/unit/test_parser_validator.py
+- [X] T063 [P] [US2] Write tests for invalid apiVersion/kind in tests/unit/test_parser_validator.py
 
 #### Step 5: Integration Tests
 
-- [ ] T064 [US2] Create invalid manifest fixtures in tests/contract/parser/fixtures/invalid-manifests/
-- [ ] T065 [US2] Write test for non-ArgoCD manifest error message in tests/integration/parser/test_cli.py
-- [ ] T066 [US2] Write test for YAML syntax error with line number in tests/integration/parser/test_cli.py
-- [ ] T067 [US2] Write test for missing required field error in tests/integration/parser/test_cli.py
-- [ ] T068 [US2] Write test for empty/null field error in tests/integration/parser/test_cli.py
+- [X] T064 [US2] Create invalid manifest fixtures in tests/fixtures/parser/invalid-manifests/
+- [X] T065 [US2] Write test for non-ArgoCD manifest error message in tests/integration/test_parser_cli.py
+- [X] T066 [US2] Write test for YAML syntax error with line number in tests/integration/test_parser_cli.py
+- [X] T067 [US2] Write test for missing required field error in tests/integration/test_parser_cli.py
+- [X] T068 [US2] Write test for empty/null field error in tests/integration/test_parser_cli.py
 
 **Completion Criteria for US2**:
 - ✅ Non-ArgoCD YAML → clear "not an Application" message

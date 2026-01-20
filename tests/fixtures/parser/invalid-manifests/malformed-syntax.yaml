@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test-app
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/org/repo.git
+    path: ./manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  invalid: yaml: syntax: here:
