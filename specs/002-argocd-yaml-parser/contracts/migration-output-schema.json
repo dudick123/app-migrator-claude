@@ -1,0 +1,139 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/app-migrator-claude/schemas/migration-output.json",
+  "title": "Migration Output Schema",
+  "description": "JSON Schema for transformed ArgoCD Application data used by migration tools",
+  "type": "object",
+  "required": ["metadata", "project", "source", "destination", "enableSyncPolicy"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Application name from ArgoCD manifest"
+        },
+        "annotations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Normalized annotations (keys converted to camelCase, namespace prefixes removed)",
+          "examples": [
+            {
+              "syncWave": "40",
+              "customKey": "value"
+            }
+          ]
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Labels from ArgoCD manifest, may include defaults from configuration",
+          "examples": [
+            {
+              "environment": "dev",
+              "team": "platform"
+            }
+          ]
+        }
+      }
+    },
+    "project": {
+      "type": "string",
+      "default": "default",
+      "description": "ArgoCD project name"
+    },
+    "source": {
+      "type": "object",
+      "required": ["repoURL", "revision"],
+      "properties": {
+        "repoURL": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Git or Helm repository URL",
+          "examples": [
+            "https://github.com/org/repo.git"
+          ]
+        },
+        "revision": {
+          "type": "string",
+          "default": "HEAD",
+          "description": "Git branch, tag, commit, or Helm chart version (renamed from targetRevision)"
+        },
+        "manifestPath": {
+          "type": ["string", "null"],
+          "description": "Directory path within repository (renamed from path)"
+        },
+        "directory": {
+          "type": ["object", "null"],
+          "properties": {
+            "recurse": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to recurse into subdirectories"
+            }
+          },
+          "description": "Directory configuration for manifest discovery"
+        }
+      }
+    },
+    "destination": {
+      "type": "object",
+      "required": ["clusterName", "namespace"],
+      "properties": {
+        "clusterName": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Target cluster name (mapped from server URL or ArgoCD cluster name)",
+          "examples": [
+            "prod-cluster",
+            "staging-cluster",
+            "default"
+          ]
+        },
+        "namespace": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Target Kubernetes namespace for deployment"
+        }
+      }
+    },
+    "enableSyncPolicy": {
+      "type": "boolean",
+      "description": "Whether automated sync policy is configured (derived from presence of syncPolicy in source)"
+    }
+  },
+  "examples": [
+    {
+      "metadata": {
+        "name": "example-app",
+        "annotations": {
+          "syncWave": "40"
+        },
+        "labels": {
+          "environment": "dev",
+          "team": "platform"
+        }
+      },
+      "project": "default",
+      "source": {
+        "repoURL": "https://github.com/org/repo.git",
+        "revision": "main",
+        "manifestPath": "./manifests",
+        "directory": {
+          "recurse": true
+        }
+      },
+      "destination": {
+        "clusterName": "prod-cluster",
+        "namespace": "default"
+      },
+      "enableSyncPolicy": false
+    }
+  ]
+}
