@@ -1,0 +1,196 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/argoproj/argo-cd/schemas/application-v1alpha1.json",
+  "title": "ArgoCD Application (v1alpha1) - Subset",
+  "description": "JSON Schema for ArgoCD Application CRD v1alpha1 (subset of fields supported by parser)",
+  "type": "object",
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": {
+      "type": "string",
+      "const": "argoproj.io/v1alpha1",
+      "description": "API version for ArgoCD Application CRD"
+    },
+    "kind": {
+      "type": "string",
+      "const": "Application",
+      "description": "Kubernetes resource kind"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Application name (DNS-1123 subdomain)",
+          "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+        },
+        "namespace": {
+          "type": "string",
+          "minLength": 1,
+          "default": "argocd",
+          "description": "Namespace where Application resource is created",
+          "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Custom labels for the Application resource"
+        },
+        "annotations": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Custom annotations for the Application resource"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "required": ["source", "destination"],
+      "properties": {
+        "project": {
+          "type": "string",
+          "default": "default",
+          "description": "ArgoCD project the application belongs to"
+        },
+        "source": {
+          "type": "object",
+          "required": ["repoURL"],
+          "properties": {
+            "repoURL": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Git or Helm repository URL",
+              "examples": [
+                "https://github.com/argoproj/argocd-example-apps.git",
+                "https://charts.helm.sh/stable"
+              ]
+            },
+            "targetRevision": {
+              "type": "string",
+              "default": "HEAD",
+              "description": "Git branch, tag, commit hash, or Helm chart version"
+            },
+            "path": {
+              "type": "string",
+              "description": "Directory path within Git repository (for Git sources)"
+            },
+            "chart": {
+              "type": "string",
+              "description": "Helm chart name (for Helm sources)"
+            }
+          },
+          "oneOf": [
+            {
+              "required": ["path"],
+              "not": {
+                "required": ["chart"]
+              }
+            },
+            {
+              "required": ["chart"],
+              "not": {
+                "required": ["path"]
+              }
+            }
+          ]
+        },
+        "destination": {
+          "type": "object",
+          "required": ["namespace"],
+          "properties": {
+            "server": {
+              "type": "string",
+              "format": "uri",
+              "description": "Kubernetes API server URL",
+              "examples": [
+                "https://kubernetes.default.svc",
+                "https://1.2.3.4:6443"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "description": "Cluster name as defined in ArgoCD cluster secrets"
+            },
+            "namespace": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Target namespace for application deployment",
+              "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+            }
+          },
+          "oneOf": [
+            {
+              "required": ["server"]
+            },
+            {
+              "required": ["name"]
+            }
+          ]
+        },
+        "syncPolicy": {
+          "type": ["object", "null"],
+          "description": "Automated sync configuration (optional)",
+          "properties": {
+            "automated": {
+              "type": "object",
+              "properties": {
+                "prune": {
+                  "type": "boolean",
+                  "description": "Auto-delete resources removed from Git"
+                },
+                "selfHeal": {
+                  "type": "boolean",
+                  "description": "Auto-sync when drift detected"
+                },
+                "allowEmpty": {
+                  "type": "boolean",
+                  "description": "Allow apps with zero resources"
+                }
+              }
+            },
+            "syncOptions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Sync options like CreateNamespace=true"
+            },
+            "retry": {
+              "type": "object",
+              "description": "Retry configuration for failed syncs"
+            }
+          }
+        },
+        "ignoreDifferences": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "description": "Rules to ignore diffs for specific resources"
+        },
+        "info": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "value"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "Additional metadata key-value pairs"
+        }
+      }
+    }
+  }
+}
